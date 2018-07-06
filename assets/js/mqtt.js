@@ -19,7 +19,8 @@
 
     $('#btn_set_kwh').button('reset');
 
-    client.subscribe("#");
+    client.subscribe("/102/data");
+
   }
 
     
@@ -50,15 +51,20 @@
 
         ubah_tombol(0);
         
-        console.log('memnuhi kondisi');
 
     }else if(data_message.r != undefined){
 
-        console.log(data_message.r);
-        
-        ubah_tombol(data_message.r);
+        tempat_daya.push([Date.now(), data_message.d]);
+        tempat_arus.push([Date.now(), data_message.a]);
 
-        console.log('Tidak memnuhi kondisi');
+        chart1.series[0].setData(tempat_daya);
+        chart2.series[0].setData(tempat_arus);
+
+        if(set_tombol == undefined || set_tombol == data_message.r){
+          ubah_tombol(data_message.r);
+        }
+        
+
     }
     
     // if (message.destinationName == '/' + 'esp' + '/' + 'test') { //ac� coloco el topic

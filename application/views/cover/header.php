@@ -36,6 +36,23 @@ $level = $this->session->userdata('level');
     <!--end of page level css-->
     <link rel="stylesheet" href="<?= base_url() ?>/assets/css/pages/tab.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.css">
+    <style>
+        .headings {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            padding-bottom: 10px;
+        }
+        .hr-flex {
+            border-top: 1px dashed #d8d8d8;
+            color: #ffffff;
+            background-color: #ffffff;
+            height: 1px;
+            margin: 10px 0;
+            display: block;
+            flex: 1;
+        }
+    </style>
 </head>
 
 <body class="skin-josh">
