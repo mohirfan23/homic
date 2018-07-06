@@ -21,7 +21,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                            <button class="btn btn-default" id="tombol_cek" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Cekking">Cekking server</button>
+                            <button class="btn btn-default" id="tombol_cek" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Cek koneksi">Cekking server</button>
                                 <button class="btn btn-danger hide" id="trun_off">Trun Off</button>
                                 <button class="btn btn-success hide" id="trun_on">Trun On</button>
                             </div>
@@ -30,7 +30,7 @@
                                     <div class="form-group input-group">
                                         <input type="text" class="form-control" placeholder="Set kwh .." id="set_kwh">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-success" type="button" id="btn_set_kwh">
+                                            <button class="btn btn-success" type="button" id="btn_set_kwh" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
                                                 <i class="fa fa-send"></i>
                                             </button>
                                         </span>
@@ -76,6 +76,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.js"></script>
 <script>
     usurname = 'xnyssfic';
     password = '5g07JJLkpZy9';
@@ -164,6 +165,8 @@ $('#btn_set_kwh').on('click', function(){
 $(document).ready(function() {
 
     get_data();
+
+    $('#btn_set_kwh').button("loading");
 
     $("#tombol_cek").button("loading");
 

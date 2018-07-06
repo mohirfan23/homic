@@ -35,6 +35,7 @@ $level = $this->session->userdata('level');
     <link rel="stylesheet" href="<?= base_url() ?>/assets/css/only_dashboard.css" />
     <!--end of page level css-->
     <link rel="stylesheet" href="<?= base_url() ?>/assets/css/pages/tab.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.25.0/sweetalert2.min.css">
 </head>
 
 <body class="skin-josh">

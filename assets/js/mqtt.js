@@ -10,8 +10,15 @@
    
   // called when the client connects
   function onConnect() {
-    // Once a connection has been made, make a subscription and send a message.
-    console.log("onConnect");
+
+    swal(
+      'Success',
+      'Koneksi ke server',
+      'success'
+    )
+
+    $('#btn_set_kwh').button('reset');
+
     client.subscribe("#");
   }
 
