@@ -54,6 +54,12 @@ class M_datasocket extends CI_Model {
         }
     }
 
+    public function update_kwh()
+    {
+        $this->db->where('id_akun', $this->session->userdata('id_akun'));
+        $this->db->update('tb_datasocket', array('set_kwh' => $this->input->post('kwh')));
+    }
+
     function get_data_daya(){
         return $this->db->get('tb_datasocket')->result_array();
     

@@ -102,7 +102,9 @@ class C_datasocket extends CI_Controller {
 
 	public function update_kwh()
 	{
-		
+		$this->alat->update_kwh();
+
+		echo $this->cek_kondisi_alat();
 	}
 
 	public function kombinasi_acak()
