@@ -36,7 +36,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <button class="btn btn-default" id="tombol_cek" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Cek koneksi">Cekking server</button>
+                                            <button class="btn btn-default" id="tombol_cek" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Cek alat">Cekking server</button>
                                                 <button class="btn btn-danger hide" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Sending" id="trun_off">Trun Off</button>
                                                 <button class="btn btn-success hide" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Sending" id="trun_on">Trun On</button>
                                         </div>
@@ -46,7 +46,7 @@
                                         <div class="form-group input-group">
                                             <input type="text" class="form-control" placeholder="Set kwh .." id="set_kwh">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-success" type="button" id="btn_set_kwh" data-loading-text="<i class='fa fa-spinner fa-spin'></i>">
+                                                <button class="btn btn-success" type="button" id="btn_set_kwh" data-loading-text="<i class='fa fa-spinner fa-spin'></i>Cek konksi">
                                                     <i class="fa fa-send"></i>
                                                 </button>
                                             </span>
@@ -99,6 +99,49 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="col-sm-12 headings">
+                                                <span class="badge badge-success">
+                                                G R A F I K  T E G A N G A N
+                                                </span>
+                                                <hr class="hr-flex">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div id="grafik_tegangan">
+
+                                </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        
+                                <div class="row">
+                                    <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-sm-12 headings">
+                                                    <span class="badge badge-success">
+                                                    G R A F I K   KWH
+                                                    </span>
+                                                    <hr class="hr-flex">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div id="grafik_kwh">
+
+                                    </div>
+                             
+                        </div>
+                    </div>
+                </div>
                   
             </div>
         </div>
@@ -114,6 +157,9 @@
 <script>
     var tempat_daya = [];
     var tempat_arus = [];
+    var tempat_tegangan = [];
+    var tempat_kwh = [];
+    var url = "<?php echo base_url('C_datagt/insert_data') ?>";
 
     usurname = 'xnyssfic';
     password = '5g07JJLkpZy9';
@@ -121,7 +167,7 @@
 
 <script type="text/javascript">
 
-var chart1, chart2, set_kwh, set_tombol;
+var chart1, chart2, chart3, chart4, set_kwh, set_tombol;
 
 function get_data() {
     
@@ -373,6 +419,110 @@ $(document).ready(function() {
                 data: []
             }],
 
+        });
+
+        chart3 = Highcharts.stockChart('grafik_tegangan', {
+            chart: {
+            zoomType: 'x',
+            events: {
+                    // load: requestData // it should be just function name instead of calling the function
+                }
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: 'Exchange rate'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+
+            series: [{
+                type: 'area',
+                name: 'Daya',
+                data: []
+            }]
+        });
+
+        chart4 = Highcharts.stockChart('grafik_kwh', {
+            chart: {
+            zoomType: 'x',
+            events: {
+                    // load: requestData // it should be just function name instead of calling the function
+                }
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                title: {
+                    text: 'Exchange rate'
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    marker: {
+                        radius: 2
+                    },
+                    lineWidth: 1,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+
+            series: [{
+                type: 'area',
+                name: 'Daya',
+                data: []
+            }]
         });
 
 

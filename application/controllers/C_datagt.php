@@ -13,21 +13,13 @@ class C_datagt extends MY_Controller {
 
 	public function index()
 	{
-		$data['suhu']=array();
-		$data['kelembaban']=array();
-		$data['gas']=array();
-		$data['id_gateway'] = $this->M_datagt->get_data()->result();
 
-		$id_gateway = $this->input->post('kirim_id');
-
-   		foreach($this->M_datagt->get($id_gateway)->result_array() as $row){
-   			array_push($data['suhu'], (int) $row['suhu']);
-    		array_push($data['kelembaban'], (int) $row['kelembaban']);
-    		array_push($data['gas'], (int) $row['gas']);
-   		}
+		$data = array(
+			'datagt' => $this->M_datagt->get_data() 
+		);
 
 		$this->load->view('cover/header');
-		$this->load->view('v_datagt/tampil_datagt', array('data'=>$data));
+		$this->load->view('v_datagt/tampil_datagt', $data);
 		$this->load->view('cover/footer');
 	}
 
@@ -57,6 +49,24 @@ class C_datagt extends MY_Controller {
 
 		array_push($array, array('gas' => $data_gas, 'suhu' => $data_suhu, 'kelembaban' => $data_kelembaban));
 		echo json_encode($array);
+	}
+
+	public function insert_data()
+	{
+		date_default_timezone_set("Asia/Jakarta");
+
+		$data = array(
+			'id_socket' => $this->input->post('id'),
+			'arus' => $this->input->post('a'),
+			'daya' => $this->input->post('w'),
+			'tegangan' => $this->input->post('v'),
+			'relay' => $this->input->post('r'),
+			'kwh' => $this->input->post('kwh'),
+			'tanggal' => date('Y-m-d H:i:s') 
+		);
+
+		$this->M_datagt->insert_data($data);
+
 	}
 
 	

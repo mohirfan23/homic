@@ -332,25 +332,11 @@ $level = $this->session->userdata('level');
                         <?php } ?>
                         <?php if($level == 'Pengguna'){ ?>
                             <li>
-                                <a href="#">
+                                <a href="<?= site_url('C_datagt') ?>">
                                     <i class="livicon" data-name="doc-portrait" data-c="#5bc0de" data-hc="#5bc0de" data-size="18" data-loop="true"></i>
-                                    <span class="title">Data Pengeluaran</span>
-                                    <span class="fa arrow"></span>
+                                    <span class="title">Tabel pengiriman data</span>
+                                   
                                 </a>
-                                <ul class="sub-menu">
-                                        <li>
-                                            <a href="<?= site_url('C_bayar_listrik'); ?>">
-                                                <i class="fa fa-angle-double-right"></i> Data Pembayaran Listrik
-                                            </a>
-                                        </li>
-                                        
-                                        <li>
-                                        <a href="<?= site_url('C_datasocket'); ?>">
-                                            <i class="fa fa-angle-double-right"></i> Data penggunaan alat
-                                        </a>
-                                    </li>
-                                    
-                                </ul>
                             </li>
                             <li>
                                 <a href="<?= site_url('C_datasocket'); ?>">

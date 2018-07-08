@@ -42,6 +42,8 @@
   function onMessageArrived(message) {
     
     var data_message = JSON.parse(message.payloadString);
+
+    insert_data(data_message);
     
     if(data_message.kwh >= set_kwh){
        
@@ -56,14 +58,18 @@
 
         tempat_daya.push([Date.now(), data_message.d]);
         tempat_arus.push([Date.now(), data_message.a]);
+        tempat_tegangan.push([Date.now(), data_message.v]);
+        tempat_kwh.push([Date.now(), data_message.kwh]);
 
         chart1.series[0].setData(tempat_daya);
         chart2.series[0].setData(tempat_arus);
+        chart3.series[0].setData(tempat_tegangan);
+        chart4.series[0].setData(tempat_kwh);
+
 
         if(set_tombol == undefined || set_tombol == data_message.r){
           ubah_tombol(data_message.r);
         }
-        
 
     }
     
@@ -71,6 +77,14 @@
     //     document.getElementById("temperatura").textContent = message.payloadString  + " �C";
     // }
 
+  }
+
+  function insert_data(data){
+      $.ajax({
+        url:url,
+        method:'POST',
+        data:{id:data.id,a:data.a,w:data.w,v:data.v,r:data.r,kwh:data.kwh}
+      });
   }
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2018 at 10:49 AM
+-- Generation Time: Jul 08, 2018 at 08:05 AM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.1.12
 
@@ -56,7 +56,6 @@ INSERT INTO `data_pesanan` (`id_pesanan`, `nama_pemesan`, `alamat_pemesan`, `ema
 CREATE TABLE `pembayaran_listrik` (
   `id_bayar_listrik` int(11) NOT NULL,
   `id_socket` int(11) NOT NULL,
-  `id_gateway` int(11) NOT NULL,
   `kwh` varchar(100) NOT NULL,
   `harga` int(100) NOT NULL,
   `tanggal` date NOT NULL
@@ -66,11 +65,11 @@ CREATE TABLE `pembayaran_listrik` (
 -- Dumping data for table `pembayaran_listrik`
 --
 
-INSERT INTO `pembayaran_listrik` (`id_bayar_listrik`, `id_socket`, `id_gateway`, `kwh`, `harga`, `tanggal`) VALUES
-(1, 1, 1, '200', 500000, '2017-11-12'),
-(2, 2, 2, '300', 100000, '2017-11-12'),
-(7, 2, 2, '100', 5000, '2017-10-12'),
-(8, 2, 2, '100', 5000, '2017-10-11');
+INSERT INTO `pembayaran_listrik` (`id_bayar_listrik`, `id_socket`, `kwh`, `harga`, `tanggal`) VALUES
+(1, 1, '200', 500000, '2017-11-12'),
+(2, 2, '300', 100000, '2017-11-12'),
+(7, 2, '100', 5000, '2017-10-12'),
+(8, 2, '100', 5000, '2017-10-11');
 
 -- --------------------------------------------------------
 
@@ -83,9 +82,12 @@ CREATE TABLE `tb_akun` (
   `nama` varchar(50) NOT NULL,
   `alamat` text NOT NULL,
   `no_hp` varchar(20) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `level` enum('Admin','Pengguna') NOT NULL,
+  `username` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `level` enum('Admin','Pengguna') NOT NULL DEFAULT 'Pengguna',
+  `status` enum('aktif','b_aktif') NOT NULL DEFAULT 'b_aktif',
+  `lat` varchar(100) NOT NULL,
+  `lon` varchar(100) NOT NULL,
   `email` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -93,9 +95,10 @@ CREATE TABLE `tb_akun` (
 -- Dumping data for table `tb_akun`
 --
 
-INSERT INTO `tb_akun` (`id_akun`, `nama`, `alamat`, `no_hp`, `username`, `password`, `level`, `email`) VALUES
-(4, 'Aditiya Fadillah', 'Bekasi', '085715414307', 'adit', '2e445949d370543ad32c166c38b1278d67316509', 'Admin', 'aditpucuk76@gmail.com'),
-(5, 'Ikbal Syahrul Shidiq', 'Bandung', '085615441933', 'ikbal', '407787d868a438469f1705b51ebe2e19b5f98cbf', 'Pengguna', 'ikbalsyahrul@gmail.com');
+INSERT INTO `tb_akun` (`id_akun`, `nama`, `alamat`, `no_hp`, `username`, `password`, `level`, `status`, `lat`, `lon`, `email`) VALUES
+(4, 'Aditiya Fadillah', 'Bekasi', '085715414307', 'adit', '2e445949d370543ad32c166c38b1278d67316509', 'Admin', 'aktif', '', '', 'aditpucuk76@gmail.com'),
+(5, 'Ikbal Syahrul Shidiq', 'Bandung', '085615441933', 'ikbal', '407787d868a438469f1705b51ebe2e19b5f98cbf', 'Pengguna', 'b_aktif', '', '', 'ikbalsyahrul@gmail.com'),
+(25, 'Muhamad Irfan', 'Jalan Sekeloa Selatan I, Lebak Gede, Bandung City, West Java, Indonesia', '08772226272', 'mohirfan23', '5bbe9a24f046030f2a9e0d62eba48fa94a1c6156', 'Pengguna', 'aktif', '-6.8899425', '107.61888249999993', 'mohirfan689@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -105,30 +108,22 @@ INSERT INTO `tb_akun` (`id_akun`, `nama`, `alamat`, `no_hp`, `username`, `passwo
 
 CREATE TABLE `tb_datagt` (
   `id_datagt` int(11) NOT NULL,
-  `id_gateway` varchar(30) NOT NULL,
-  `suhu` double(50,2) NOT NULL,
-  `kelembaban` double(50,2) NOT NULL,
-  `gas` double(50,2) NOT NULL,
-  `tanggal` date NOT NULL
+  `id_socket` varchar(30) NOT NULL,
+  `arus` double(50,2) NOT NULL,
+  `daya` double(50,2) NOT NULL,
+  `tegangan` double(50,2) NOT NULL,
+  `kwh` double(50,2) NOT NULL,
+  `relay` char(2) NOT NULL,
+  `tanggal` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tb_datagt`
 --
 
-INSERT INTO `tb_datagt` (`id_datagt`, `id_gateway`, `suhu`, `kelembaban`, `gas`, `tanggal`) VALUES
-(1, '1', 12.30, 38.00, 30.00, '2017-01-01'),
-(2, '1', 25.00, 30.00, 12.00, '2017-02-02'),
-(3, '1', 29.00, 13.00, 15.00, '2017-03-10'),
-(4, '1', 40.00, 30.98, 30.00, '2017-04-04'),
-(5, '2', 30.10, 31.11, 32.33, '2017-05-05'),
-(6, '2', 20.99, 30.99, 45.00, '2017-06-09'),
-(7, '2', 30.15, 35.10, 33.00, '2017-07-11'),
-(8, '1', 45.00, 34.00, 22.34, '2017-08-10'),
-(9, '2', 36.33, 33.33, 25.22, '2017-09-11'),
-(10, '1', 34.35, 24.25, 36.50, '2017-10-12'),
-(11, '2', 45.33, 44.23, 34.35, '2017-11-02'),
-(12, '3', 40.00, 30.20, 30.33, '2017-12-15');
+INSERT INTO `tb_datagt` (`id_datagt`, `id_socket`, `arus`, `daya`, `tegangan`, `kwh`, `relay`, `tanggal`) VALUES
+(13, 'qwCCVag', 0.00, 0.00, 0.00, 0.07, '0', '2018-07-08 11:01:52'),
+(14, 'qwCCVag', 0.00, 0.00, 0.00, 0.07, '1', '2018-07-08 11:02:34');
 
 -- --------------------------------------------------------
 
@@ -137,71 +132,46 @@ INSERT INTO `tb_datagt` (`id_datagt`, `id_gateway`, `suhu`, `kelembaban`, `gas`,
 --
 
 CREATE TABLE `tb_datasocket` (
-  `id_datasocket` int(11) NOT NULL,
-  `id_socket` varchar(30) NOT NULL,
-  `id_gateway` varchar(30) NOT NULL,
-  `arus` double(50,2) NOT NULL,
-  `daya` double(50,2) NOT NULL,
-  `tanggal` date NOT NULL,
-  `waktu` time NOT NULL
+  `id_socket` int(11) NOT NULL,
+  `id_akun` int(11) NOT NULL DEFAULT '4',
+  `no_seri` varchar(100) NOT NULL,
+  `set_kwh` varchar(50) NOT NULL DEFAULT '2',
+  `set_switch` char(5) NOT NULL DEFAULT 'off',
+  `status` enum('aktif','b_aktif') NOT NULL DEFAULT 'b_aktif',
+  `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tb_datasocket`
 --
 
-INSERT INTO `tb_datasocket` (`id_datasocket`, `id_socket`, `id_gateway`, `arus`, `daya`, `tanggal`, `waktu`) VALUES
-(1, '1', '1', 20.00, 40.00, '2017-01-01', '09:25:25'),
-(2, '1', '1', 10.00, 200.00, '2017-02-02', '10:25:00'),
-(3, '2', '2', 45.50, 300.00, '2017-03-03', '11:28:29'),
-(4, '3', '2', 25.45, 400.00, '2017-04-04', '12:31:00'),
-(5, '2', '2', 10.00, 53.45, '2017-05-05', '13:33:33'),
-(6, '4', '4', 25.00, 40.00, '2017-11-13', '05:14:15');
+INSERT INTO `tb_datasocket` (`id_socket`, `id_akun`, `no_seri`, `set_kwh`, `set_switch`, `status`, `tanggal`) VALUES
+(1, 17, 'jalO932', '', 'off', 'aktif', '2018-07-01'),
+(4, 25, 'qwCCVag', '3', 'off', 'aktif', '2018-07-04');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_reggt`
+-- Table structure for table `tb_order`
 --
 
-CREATE TABLE `tb_reggt` (
-  `id_reggt` int(11) NOT NULL,
-  `id_gateway` varchar(30) NOT NULL,
-  `id_socket` varchar(30) NOT NULL,
-  `ip_gateway` int(11) NOT NULL,
-  `ip_socket` varchar(30) NOT NULL,
-  `akses` varchar(20) NOT NULL,
-  `username` varchar(40) NOT NULL,
-  `password` varchar(40) NOT NULL
+CREATE TABLE `tb_order` (
+  `id_order` int(11) NOT NULL,
+  `id_akun` int(11) NOT NULL,
+  `status_bayar` varchar(50) NOT NULL DEFAULT 'kosong',
+  `konfirmasi` tinyint(4) NOT NULL DEFAULT '0',
+  `jumlah` int(100) NOT NULL,
+  `total` int(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `tb_reggt`
+-- Dumping data for table `tb_order`
 --
 
-INSERT INTO `tb_reggt` (`id_reggt`, `id_gateway`, `id_socket`, `ip_gateway`, `ip_socket`, `akses`, `username`, `password`) VALUES
-(1, '1', '1', 1, '1', 'pppp', 'adit', '2e445949d370543ad32c166c38b1278d67316509');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_regsocket`
---
-
-CREATE TABLE `tb_regsocket` (
-  `id_regsocket` int(11) NOT NULL,
-  `id_socket` varchar(30) NOT NULL,
-  `id_gateway` varchar(30) NOT NULL,
-  `gol_daya` int(50) NOT NULL,
-  `ip_socket` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tb_regsocket`
---
-
-INSERT INTO `tb_regsocket` (`id_regsocket`, `id_socket`, `id_gateway`, `gol_daya`, `ip_socket`) VALUES
-(1, '1', '1', 8, '1');
+INSERT INTO `tb_order` (`id_order`, `id_akun`, `status_bayar`, `konfirmasi`, `jumlah`, `total`, `created_at`, `updated_at`) VALUES
+(18, 25, 'gbr_1530716739.jpg', 1, 1, 500000, '2018-07-04 15:05:48', '2018-07-23');
 
 -- --------------------------------------------------------
 
@@ -259,19 +229,13 @@ ALTER TABLE `tb_datagt`
 -- Indexes for table `tb_datasocket`
 --
 ALTER TABLE `tb_datasocket`
-  ADD PRIMARY KEY (`id_datasocket`);
+  ADD PRIMARY KEY (`id_socket`);
 
 --
--- Indexes for table `tb_reggt`
+-- Indexes for table `tb_order`
 --
-ALTER TABLE `tb_reggt`
-  ADD PRIMARY KEY (`id_reggt`);
-
---
--- Indexes for table `tb_regsocket`
---
-ALTER TABLE `tb_regsocket`
-  ADD PRIMARY KEY (`id_regsocket`);
+ALTER TABLE `tb_order`
+  ADD PRIMARY KEY (`id_order`);
 
 --
 -- Indexes for table `tdl`
@@ -299,31 +263,25 @@ ALTER TABLE `pembayaran_listrik`
 -- AUTO_INCREMENT for table `tb_akun`
 --
 ALTER TABLE `tb_akun`
-  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tb_datagt`
 --
 ALTER TABLE `tb_datagt`
-  MODIFY `id_datagt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_datagt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tb_datasocket`
 --
 ALTER TABLE `tb_datasocket`
-  MODIFY `id_datasocket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_socket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `tb_reggt`
+-- AUTO_INCREMENT for table `tb_order`
 --
-ALTER TABLE `tb_reggt`
-  MODIFY `id_reggt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `tb_regsocket`
---
-ALTER TABLE `tb_regsocket`
-  MODIFY `id_regsocket` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `tb_order`
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `tdl`

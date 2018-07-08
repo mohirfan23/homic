@@ -27,11 +27,13 @@ class M_datagt extends CI_Model {
     //get data
     function get_data()
     {
-        
-        $this->db->distinct();
-        $this->db->select('id_gateway');
-        $this->db->from('tb_datagt');
-        return $this->db->get();
+        $where = 
+            array('id_socket' => $this->session->userdata('no_seri'), 
+        );
+
+        $this->db->where($where);
+        $this->db->order_by('tanggal','DESC');
+        return $this->db->get('tb_datagt')->result();
     }
 
     function tampil_datagt()
@@ -42,6 +44,11 @@ class M_datagt extends CI_Model {
     public function get_data_daya()
     {
         return $this->db->query("SELECT * FROM tb_datagt GROUP BY tanggal");
+    }
+
+    public function insert_data($data)
+    {
+        $this->db->insert('tb_datagt', $data);
     }
 
 }

@@ -3,6 +3,7 @@
 class Auth_model extends CI_Model {
 
 	private $table = "tb_akun";
+	private $alat = "tb_datasocket";
 	private $_data = array();
 
 	public function validate()
@@ -47,19 +48,15 @@ class Auth_model extends CI_Model {
 		return $this->_data;
 	}
 
-	public function get_name()
+	public function get_noseri($id_akun)
 	{
-		$username = $this->input->post('username');
-		$password = $this->input->post('password');
 
 		$where = array(
-			'username' => $username,
-			'password' => sha1($password)
+			'id_akun' => $id_akun,
 		);
 
-
 		$this->db->where($where);
-		return $this->db->get($this->table)->row();		
+		return $this->db->get($this->alat)->row();		
 	}
 
 }
