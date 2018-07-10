@@ -53,7 +53,7 @@
                                                 }
 
                                             ?>
-                                            <a href="<?= $link ?>" class="btn btn-danger btn-xs"
+                                            <a href="<?= $link ?>" class="btn btn-danger btn-xs" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Sending .." id="kirim_confrim"
                                                 <?= $disabled ?>
                                             >Confirmation</button>
                                             <?php } ?>
@@ -117,4 +117,10 @@
 	  </div>
 	</div>
 
+    <script src="<?= base_url() ?>/assets/js/jquery-1.11.3.min.js" type="text/javascript"></script> 
+    <script>
+        $('#kirim_confrim').click(function(){
+            $(this).button('loading');
+        });
+    </script>
     

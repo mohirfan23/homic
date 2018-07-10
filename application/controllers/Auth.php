@@ -39,7 +39,11 @@ class Auth extends MY_Controller {
 				// store the user data to session
 				$this->session->set_userdata($this->auth->get_data());
 				$this->session->set_userdata("logged_in", true);
-				$this->session->set_userdata('no_seri', $this->auth->get_noseri($this->session->userdata('id_akun'))->no_seri);
+
+				if($this->session->userdata('level') != "Admin"){
+					$this->session->set_userdata('no_seri', $this->auth->get_noseri($this->session->userdata('id_akun'))->no_seri);
+				}
+				
 				// redirect to dashboard
 				redirect('dashboard','refresh');
 			}

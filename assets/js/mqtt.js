@@ -3,13 +3,16 @@
        $("#tombol_cek").button("loading");
         
         message = new Paho.MQTT.Message(data_status);
-        message.destinationName = '/' + '102' + '/set'
+        message.destinationName = '/' + no_seri + '/set'
         client.send(message);
     };
 
    
   // called when the client connects
   function onConnect() {
+
+    console.log(no_seri);
+    
 
     swal(
       'Success',
@@ -19,7 +22,7 @@
 
     $('#btn_set_kwh').button('reset');
 
-    client.subscribe("/102/data");
+    client.subscribe("/"+no_seri+"/data");
 
   }
 
@@ -42,8 +45,6 @@
   function onMessageArrived(message) {
     
     var data_message = JSON.parse(message.payloadString);
-
-    insert_data(data_message);
     
     if(data_message.kwh >= set_kwh){
        
@@ -56,15 +57,24 @@
 
     }else if(data_message.r != undefined){
 
-        tempat_daya.push([Date.now(), data_message.d]);
-        tempat_arus.push([Date.now(), data_message.a]);
-        tempat_tegangan.push([Date.now(), data_message.v]);
-        tempat_kwh.push([Date.now(), data_message.kwh]);
+        console.log(data_message.w);
 
-        chart1.series[0].setData(tempat_daya);
-        chart2.series[0].setData(tempat_arus);
-        chart3.series[0].setData(tempat_tegangan);
-        chart4.series[0].setData(tempat_kwh);
+        if(data_message.r == 1){
+
+          insert_data(data_message);
+
+          tempat_daya.push([Date.now(), data_message.w]);
+          tempat_arus.push([Date.now(), data_message.a]);
+          tempat_tegangan.push([Date.now(), data_message.v]);
+          tempat_kwh.push([Date.now(), data_message.kwh]);
+
+          chart1.series[0].setData(tempat_daya);
+          chart2.series[0].setData(tempat_arus);
+          chart3.series[0].setData(tempat_tegangan);
+          chart4.series[0].setData(tempat_kwh);
+        
+        }
+        
 
 
         if(set_tombol == undefined || set_tombol == data_message.r){

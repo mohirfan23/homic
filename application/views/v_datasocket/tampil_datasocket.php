@@ -160,6 +160,7 @@
     var tempat_tegangan = [];
     var tempat_kwh = [];
     var url = "<?php echo base_url('C_datagt/insert_data') ?>";
+    var no_seri = '<?= $this->session->userdata('no_seri') ?>';
 
     usurname = 'xnyssfic';
     password = '5g07JJLkpZy9';
@@ -388,7 +389,7 @@ $(document).ready(function() {
 
             series: [{
                 type: 'area',
-                name: 'Daya',
+                name: 'watt',
                 data: []
             }]
         });
@@ -415,7 +416,7 @@ $(document).ready(function() {
             },
 
             series: [{
-                name: 'Arus',
+                name: 'amper',
                 data: []
             }],
 
@@ -468,7 +469,7 @@ $(document).ready(function() {
 
             series: [{
                 type: 'area',
-                name: 'Daya',
+                name: 'volt',
                 data: []
             }]
         });
@@ -520,7 +521,7 @@ $(document).ready(function() {
 
             series: [{
                 type: 'area',
-                name: 'Daya',
+                name: 'kwh',
                 data: []
             }]
         });
